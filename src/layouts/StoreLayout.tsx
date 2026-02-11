@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom"
-import { ShoppingCart, User, Search, Menu } from "lucide-react"
+import { ShoppingCart, User, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -37,7 +37,7 @@ export default function Inventory() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {inventoryItems.map((item) => (
+                            {inventoryItems.map((item: any) => (
                                 <TableRow key={item.id}>
                                     <TableCell className="font-medium">{item.id}</TableCell>
                                     <TableCell>{item.name}</TableCell>
@@ -59,7 +59,7 @@ export default function Inventory() {
                                 </TableRow>
                             ))}
                             {/* Duplicating items to fill list for mockup */}
-                            {inventoryItems.map((item) => (
+                            {inventoryItems.map((item: any) => (
                                 <TableRow key={item.id + '_dup'}>
                                     <TableCell className="font-medium">{item.id}</TableCell>
                                     <TableCell>{item.name}</TableCell>

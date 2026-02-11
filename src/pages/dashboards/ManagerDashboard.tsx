@@ -1,10 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress" // I need to create Progress component or use simple div
 import { Button } from "@/components/ui/button"
 import { Package, Truck, AlertTriangle, CheckCircle } from "lucide-react"
-import { recentOrders, inventoryItems } from "@/data/mockData"
+import { inventoryItems } from "@/data/mockData"
 
 // Simple Progress Component since I didn't create it yet
 function SimpleProgress({ value, className }: { value: number, className?: string }) {

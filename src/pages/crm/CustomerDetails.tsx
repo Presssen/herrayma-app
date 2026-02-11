@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar" // Need to implement Avatar or just use div
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs" // Need to implement Tabs or use simple state
+// Removed missing/unused Avatar and Tabs imports
 import { Mail, Phone, Calendar, ArrowLeft, Send } from "lucide-react"
 
 // Simple Avatar since I don't have one

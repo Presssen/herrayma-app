@@ -1,9 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip" // Need to install/implement Tooltip. 
-// I'll skip tooltip implementation details and just use simple title attributes or a mock since I didn't create Tooltip component.
-// Actually, I can create a simple wrapper or just omit active tooltips for now.
 
 const gridCells = Array.from({ length: 100 }, (_, i) => ({
     id: i,
