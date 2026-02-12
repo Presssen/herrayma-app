@@ -1,81 +1,138 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart } from "lucide-react"
+import { ShoppingCart, Filter, Search, ArrowUpDown } from "lucide-react"
+import { inventoryItems } from "../../data/mockData"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
 
 export default function Catalog() {
     return (
-        <div className="container mx-auto py-8 px-4 flex gap-8">
-            {/* Sidebar Filters - Hidden on mobile for now */}
-            <aside className="w-64 hidden lg:block space-y-6">
+        <div className="container mx-auto py-12 px-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                 <div>
-                    <h3 className="font-semibold mb-4">Categories</h3>
-                    <ul className="space-y-2 text-sm">
-                        <li><a href="#" className="text-primary font-medium">All Products</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Power Tools</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Hand Tools</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Safety Equipment</a></li>
-                        <li><a href="#" className="text-muted-foreground hover:text-foreground">Fasteners</a></li>
-                    </ul>
+                    <h1 className="text-4xl font-extrabold tracking-tight mb-2">Product Catalog</h1>
+                    <p className="text-muted-foreground text-lg">Browse our premium selection of industrial equipment.</p>
                 </div>
-                <div>
-                    <h3 className="font-semibold mb-4">Price Range</h3>
-                    <div className="grid gap-2">
-                        <label className="flex items-center space-x-2">
-                            <input type="checkbox" className="rounded border-gray-300" />
-                            <span className="text-sm">Under $50</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input type="checkbox" className="rounded border-gray-300" />
-                            <span className="text-sm">$50 - $100</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input type="checkbox" className="rounded border-gray-300" />
-                            <span className="text-sm">$100 - $500</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input type="checkbox" className="rounded border-gray-300" />
-                            <span className="text-sm">$500+</span>
-                        </label>
+                <div className="flex gap-2">
+                    <Button variant="outline" className="gap-2">
+                        <Filter className="h-4 w-4" /> Filters
+                    </Button>
+                    <Button variant="outline" className="gap-2">
+                        <ArrowUpDown className="h-4 w-4" /> Sort
+                    </Button>
+                </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Search Sidebar */}
+                <aside className="w-full lg:w-64 space-y-8 flex-shrink-0">
+                    <div className="bg-muted/30 p-6 rounded-xl border border-border/50">
+                        <h3 className="font-semibold mb-4 text-lg">Search</h3>
+                        <div className="relative mb-6">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="Search..." className="pl-9 bg-background" />
+                        </div>
+
+                        <Separator className="my-6" />
+
+                        <h3 className="font-semibold mb-4 text-lg">Categories</h3>
+                        <ul className="space-y-3">
+                            {['All Products', 'Power Tools', 'Hand Tools', 'Safety', 'Fasteners'].map((cat, i) => (
+                                <li key={cat}>
+                                    <button className={`text-sm ${i === 0 ? 'font-semibold text-primary' : 'text-muted-foreground hover:text-foreground'} transition-colors text-left w-full`}>
+                                        {cat}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <Separator className="my-6" />
+
+                        <h3 className="font-semibold mb-4 text-lg">Availability</h3>
+                        <ul className="space-y-3">
+                            <li className="flex items-center gap-2">
+                                <input type="checkbox" id="instock" className="rounded border-input text-primary focus:ring-primary" defaultChecked />
+                                <label htmlFor="instock" className="text-sm">In Stock Only</label>
+                            </li>
+                            <li className="flex items-center gap-2">
+                                <input type="checkbox" id="preorder" className="rounded border-input text-primary focus:ring-primary" />
+                                <label htmlFor="preorder" className="text-sm">Pre-order</label>
+                            </li>
+                        </ul>
                     </div>
-                </div>
-            </aside>
+                </aside>
 
-            <div className="flex-1">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold">Catalog</h1>
-                    <select className="border rounded-md p-2 text-sm">
-                        <option>Sort by: Featured</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                    </select>
-                </div>
+                {/* Product Grid */}
+                <div className="flex-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                        {inventoryItems.map((item) => {
+                            const isLowStock = item.stock > 0 && item.stock < 10;
+                            const isOutOfStock = item.stock === 0;
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {Array.from({ length: 9 }).map((_, i) => (
-                        <Card key={i} className="overflow-hidden flex flex-col group">
-                            <div className="aspect-square bg-muted relative group-hover:scale-105 transition-transform duration-300">
-                                {i === 2 && <Badge className="absolute top-2 right-2 bg-red-500">Sale</Badge>}
-                            </div>
-                            <CardContent className="p-4 flex-1">
-                                <h3 className="font-semibold text-lg mb-1">Heavy Duty Grinder {i + 1}</h3>
-                                <p className="text-sm text-muted-foreground line-clamp-2">High performance angle grinder with variable speed control and safety guard.</p>
-                                <div className="mt-4 flex items-baseline gap-2">
-                                    <span className="text-xl font-bold">$89.99</span>
-                                    {i === 2 && <span className="text-sm text-muted-foreground line-through">$119.99</span>}
-                                </div>
-                            </CardContent>
-                            <CardFooter className="p-4 pt-0">
-                                <Button className="w-full">
-                                    <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
-                                </Button>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </div>
+                            return (
+                                <Card key={item.id} className="group overflow-hidden border-border/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                    <div className="aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                                        {/* Mock Image */}
+                                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 font-bold text-4xl opacity-10 select-none">
+                                            IMG
+                                        </div>
 
-                <div className="mt-8 flex justify-center">
-                    <Button variant="outline">Load More</Button>
+                                        {/* Stock Badge */}
+                                        <div className="absolute top-3 right-3 z-10">
+                                            {isOutOfStock ? (
+                                                <Badge variant="destructive" className="font-semibold uppercase shadow-sm">Out of Stock</Badge>
+                                            ) : isLowStock ? (
+                                                <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200 font-semibold shadow-sm">Low Stock: {item.stock}</Badge>
+                                            ) : (
+                                                <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 hover:bg-emerald-200 font-semibold shadow-sm backdrop-blur-md">In Stock: {item.stock}</Badge>
+                                            )}
+                                        </div>
+
+                                        {/* Quick Actions Overlay */}
+                                        {!isOutOfStock && (
+                                            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
+                                                <Button size="sm" variant="secondary" className="shadow-lg font-semibold w-full">Quick Add</Button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <CardContent className="p-5">
+                                        <div className="mb-2">
+                                            <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{item.id}</p>
+                                        </div>
+                                        <h3 className="font-bold text-lg mb-2 leading-tight group-hover:text-primary transition-colors">{item.name}</h3>
+                                        <div className="flex justify-between items-baseline mt-4">
+                                            <span className="text-2xl font-bold tracking-tight">${item.price.toFixed(2)}</span>
+                                            <span className="text-xs text-muted-foreground">Location: {item.location}</span>
+                                        </div>
+                                    </CardContent>
+
+                                    <CardFooter className="p-5 pt-0">
+                                        <Button className="w-full font-semibold" disabled={isOutOfStock}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            {isOutOfStock ? "Notify Me" : "Add to Cart"}
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                            )
+                        })}
+
+                        {/* Fillers to make grid look full if needed */}
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <Card key={`filler-${i}`} className="opacity-60 grayscale border-dashed">
+                                <CardContent className="h-full flex flex-col items-center justify-center p-12 text-center space-y-4">
+                                    <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center">
+                                        <Search className="h-8 w-8 text-muted-foreground" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold">More coming soon</h3>
+                                        <p className="text-sm text-muted-foreground">We are constantly updating our inventory.</p>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
