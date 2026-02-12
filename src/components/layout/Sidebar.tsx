@@ -89,21 +89,35 @@ export function Sidebar({ className }: { className?: string }) {
                     </h2>
                     <div className="space-y-1">
                         {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                to={item.href}
-                                target={item.external ? "_blank" : undefined}
-                                rel={item.external ? "noopener noreferrer" : undefined}
-                                className={cn(
-                                    "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
-                                    location.pathname === item.href || location.pathname.startsWith(item.href + "/")
-                                        ? "bg-secondary text-primary"
-                                        : "text-muted-foreground"
-                                )}
-                            >
-                                <item.icon className="mr-2 h-4 w-4" />
-                                {item.title}
-                            </Link>
+                            item.external ? (
+                                <a
+                                    key={item.href}
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cn(
+                                        "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
+                                        "text-muted-foreground"
+                                    )}
+                                >
+                                    <item.icon className="mr-2 h-4 w-4" />
+                                    {item.title}
+                                </a>
+                            ) : (
+                                <Link
+                                    key={item.href}
+                                    to={item.href}
+                                    className={cn(
+                                        "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
+                                        location.pathname === item.href || location.pathname.startsWith(item.href + "/")
+                                            ? "bg-secondary text-primary"
+                                            : "text-muted-foreground"
+                                    )}
+                                >
+                                    <item.icon className="mr-2 h-4 w-4" />
+                                    {item.title}
+                                </Link>
+                            )
                         ))}
                     </div>
                 </div>
