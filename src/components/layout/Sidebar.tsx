@@ -10,6 +10,7 @@ import {
     BarChart,
     Truck,
     ScanBarcode,
+    Store,
 } from "lucide-react"
 
 const navItems = [
@@ -67,6 +68,13 @@ const navItems = [
         icon: Settings,
         type: "admin",
     },
+    {
+        title: "Tienda Online",
+        href: "/store",
+        icon: Store,
+        type: "store",
+        external: true,
+    },
 ]
 
 export function Sidebar({ className }: { className?: string }) {
@@ -84,6 +92,8 @@ export function Sidebar({ className }: { className?: string }) {
                             <Link
                                 key={item.href}
                                 to={item.href}
+                                target={item.external ? "_blank" : undefined}
+                                rel={item.external ? "noopener noreferrer" : undefined}
                                 className={cn(
                                     "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
                                     location.pathname === item.href || location.pathname.startsWith(item.href + "/")

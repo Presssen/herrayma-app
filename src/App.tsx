@@ -29,10 +29,10 @@ import Catalog from "@/pages/store/Catalog"
 import Cart from "@/pages/store/Cart"
 import StoreAccount from "@/pages/store/StoreAccount"
 
-// Placeholders for missing pages
-const Shipping = () => <div className="p-4"><h1>Shipping & Logistics</h1></div>
-const Reports = () => <div className="p-4"><h1>Reports & Analytics</h1></div>
-const Settings = () => <div className="p-4"><h1>System Settings</h1></div>
+// New Pages
+import Shipping from "@/pages/shipping/Shipping"
+import Reports from "@/pages/reports/Reports"
+import Settings from "@/pages/settings/Settings"
 
 function App() {
   return (
