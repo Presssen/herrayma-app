@@ -1,4 +1,3 @@
-```javascript
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -35,7 +34,7 @@ export function WarehouseVisualizer({ highlightedLocation }: WarehouseVisualizer
             return r === row && parseInt(m) === meter
         })
     }
-    
+
     // Check if cell has any items
     const isCellOccupied = (row: string, meter: number) => {
         return getItemsInCell(row, meter).length > 0
@@ -65,31 +64,29 @@ export function WarehouseVisualizer({ highlightedLocation }: WarehouseVisualizer
                                     </span>
                                     <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Row {row} (50m)</span>
                                 </div>
-                                
+
                                 <div className="flex items-center">
                                     <div className="flex-1 grid grid-cols-[repeat(50,minmax(18px,1fr))] gap-[2px] p-2 bg-white border rounded-lg shadow-sm">
                                         {Array.from({ length: METERS }).map((_, i) => {
                                             const meter = i + 1
                                             const occupied = isCellOccupied(row, meter)
                                             const isSelected = selectedCell?.row === row && selectedCell?.meter === meter
-                                            
+
                                             return (
                                                 <div
-                                                    key={`${ row } -${ meter } `}
+                                                    key={`${row}-${meter}`}
                                                     className={`
-h - 10 rounded - sm cursor - pointer transition - all duration - 200 border
-                                                        ${
-    isSelected
-        ? 'ring-2 ring-primary ring-offset-2 z-10 bg-primary/20 border-primary'
-        : 'hover:scale-110 hover:shadow-md hover:border-primary/50'
-}
-                                                        ${
-    occupied
-        ? 'bg-blue-500 border-blue-600 shadow-sm'
-        : 'bg-slate-100 border-slate-200 hover:bg-slate-200'
-}
-`}
-                                                    title={`Row ${ row }, Meter ${ meter } `}
+                                                        h-10 rounded-sm cursor-pointer transition-all duration-200 border
+                                                        ${isSelected
+                                                            ? 'ring-2 ring-primary ring-offset-2 z-10 bg-primary/20 border-primary'
+                                                            : 'hover:scale-110 hover:shadow-md hover:border-primary/50'
+                                                        }
+                                                        ${occupied
+                                                            ? 'bg-blue-500 border-blue-600 shadow-sm'
+                                                            : 'bg-slate-100 border-slate-200 hover:bg-slate-200'
+                                                        }
+                                                    `}
+                                                    title={`Row ${row}, Meter ${meter}`}
                                                     onClick={() => handleCellClick(row, meter)}
                                                 />
                                             )
@@ -120,15 +117,15 @@ h - 10 rounded - sm cursor - pointer transition - all duration - 200 border
             {showDetails && selectedCell && (
                 <Card className="w-80 h-full flex flex-col border shadow-sm animate-in slide-in-from-right-10 duration-300">
                     <div className="bg-primary px-4 py-3 text-primary-foreground flex justify-between items-center rounded-t-lg">
-                         <div>
-                             <h4 className="font-bold text-lg">Location {selectedCell.row}-{selectedCell.meter < 10 ? `0${ selectedCell.meter } ` : selectedCell.meter}</h4>
-                             <p className="text-xs opacity-90">Rack View (Side Profile)</p>
-                         </div>
-                         <Button variant="ghost" size="icon" className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20" onClick={() => setShowDetails(false)}>
-                             <X className="h-4 w-4" />
-                         </Button>
+                        <div>
+                            <h4 className="font-bold text-lg">Location {selectedCell.row}-{selectedCell.meter < 10 ? `0${selectedCell.meter}` : selectedCell.meter}</h4>
+                            <p className="text-xs opacity-90">Rack View (Side Profile)</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20" onClick={() => setShowDetails(false)}>
+                            <X className="h-4 w-4" />
+                        </Button>
                     </div>
-                    
+
                     <CardContent className="p-4 space-y-4 flex-1 overflow-auto">
                         <div className="grid grid-rows-4 gap-2 bg-slate-100 p-3 rounded-md border">
                             {[4, 3, 2, 1].map(level => {
@@ -138,26 +135,25 @@ h - 10 rounded - sm cursor - pointer transition - all duration - 200 border
                                     return parseInt(parts[2]) === level
                                 })
                                 const hasItem = itemsAtLevel.length > 0
-                                
+
                                 return (
-                                    <div 
-                                        key={level} 
+                                    <div
+                                        key={level}
                                         className={`
-h - 12 flex items - center justify - between px - 3 text - xs border rounded - md transition - colors
-                                            ${
-    hasItem
-        ? 'bg-white border-blue-200 shadow-sm'
-        : 'bg-slate-50 border-transparent text-muted-foreground'
-}
-`}
+                                            h-12 flex items-center justify-between px-3 text-xs border rounded-md transition-colors
+                                            ${hasItem
+                                                ? 'bg-white border-blue-200 shadow-sm'
+                                                : 'bg-slate-50 border-transparent text-muted-foreground'
+                                            }
+                                        `}
                                     >
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-slate-500">Level {level}</span>
                                         </div>
                                         {hasItem ? (
-                                             <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-0">
+                                            <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-0">
                                                 {itemsAtLevel.length} Item{itemsAtLevel.length !== 1 ? 's' : ''}
-                                             </Badge>
+                                            </Badge>
                                         ) : (
                                             <span className="text-slate-300 italic">Empty</span>
                                         )}
@@ -199,4 +195,3 @@ h - 12 flex items - center justify - between px - 3 text - xs border rounded - m
         </div>
     )
 }
-```
