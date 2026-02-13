@@ -14,13 +14,15 @@ export default function DashboardLayout() {
             <Sidebar isCollapsed={isCollapsed} toggleCollapse={() => setIsCollapsed(!isCollapsed)} />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <div className="h-full py-4">
-                    <Sidebar className="w-full border-r-0 block h-full" />
+                    <Sidebar className="w-full border-r-0 block h-full sticky top-0" />
                 </div>
             </Sheet>
-            <div className="flex flex-col">
+            <div className="flex flex-col min-h-screen">
                 <Header onMenuClick={() => setMobileMenuOpen(true)} />
-                <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/10">
-                    <Outlet />
+                <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-muted/10">
+                    <div className="flex flex-col gap-4 lg:gap-6">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>

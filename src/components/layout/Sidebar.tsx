@@ -90,7 +90,7 @@ export function Sidebar({ className, isCollapsed = false, toggleCollapse }: Side
 
     return (
         <div className={cn(
-            "pb-12 h-screen border-r bg-background hidden md:block transition-all duration-300 ease-in-out relative flex flex-col",
+            "h-screen sticky top-0 border-r bg-background hidden md:block transition-all duration-300 ease-in-out z-30 flex flex-col",
             isCollapsed ? "w-[60px]" : "w-64",
             className
         )}>
