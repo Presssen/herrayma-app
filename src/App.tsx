@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import DashboardLayout from "@/layouts/DashboardLayout"
 import AuthLayout from "@/layouts/AuthLayout"
 import StoreLayout from "@/layouts/StoreLayout"
+import { AuthProvider } from "@/context/AuthContext"
+import { RequireAuth } from "@/components/auth/RequireAuth"
 
 // Auth
 import LoginPage from "@/pages/auth/Login"
@@ -36,50 +38,56 @@ import Settings from "@/pages/settings/Settings"
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/admin" replace />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin" replace />} />
 
-        {/* Auth Routes */}
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgot-password" element={<div className="p-8 text-center">Forgot Password Page</div>} />
-        </Route>
-        <Route path="/onboarding" element={<OnboardingWizard />} />
+          {/* Auth Routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forgot-password" element={<div className="p-8 text-center">Forgot Password Page</div>} />
+          </Route>
+          <Route path="/onboarding" element={<OnboardingWizard />} />
 
-        {/* Dashboard Routes */}
-        <Route element={<DashboardLayout />}>
-          <Route path="/admin" element={<AdminDashboard />} />
+          {/* Dashboard Routes */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
 
-          <Route path="/crm" element={<CRMList />} />
-          <Route path="/crm/pipeline" element={<Pipeline />} />
-          <Route path="/crm/:id" element={<CustomerDetails />} />
+            <Route path="/crm" element={<CRMList />} />
+            <Route path="/crm/pipeline" element={<Pipeline />} />
+            <Route path="/crm/:id" element={<CustomerDetails />} />
 
-          <Route path="/orders" element={<ManagerDashboard />} />
+            <Route path="/orders" element={<ManagerDashboard />} />
 
-          <Route path="/wms" element={<WarehouseEditor />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/inventory/:id" element={<ProductDetails />} />
+            <Route path="/wms" element={<WarehouseEditor />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/inventory/:id" element={<ProductDetails />} />
 
-          <Route path="/picking" element={<PickerDashboard />} />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
+            <Route path="/picking" element={<PickerDashboard />} />
+            <Route path="/shipping" element={<Shipping />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
 
-        {/* Store Routes */}
-        <Route path="/store" element={<StoreLayout />}>
-          <Route index element={<StoreHome />} />
-          <Route path="products" element={<Catalog />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="account" element={<StoreAccount />} />
-          {/* Fallback for store */}
-          <Route path="*" element={<Navigate to="/store" replace />} />
-        </Route>
+          {/* Store Routes - Protected */}
+          <Route path="/store" element={
+            <RequireAuth>
+              <StoreLayout />
+            </RequireAuth>
+          }>
+            <Route index element={<StoreHome />} />
+            <Route path="products" element={<Catalog />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="account" element={<StoreAccount />} />
+            {/* Fallback for store */}
+            <Route path="*" element={<Navigate to="/store" replace />} />
+          </Route>
 
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

@@ -77,16 +77,45 @@ const navItems = [
     },
 ]
 
-export function Sidebar({ className }: { className?: string }) {
+import { ChevronLeft, ChevronRight } from "lucide-react"
+
+interface SidebarProps {
+    className?: string
+    isCollapsed?: boolean
+    toggleCollapse?: () => void
+}
+
+export function Sidebar({ className, isCollapsed = false, toggleCollapse }: SidebarProps) {
     const location = useLocation()
 
     return (
-        <div className={cn("pb-12 h-screen border-r bg-background w-64 hidden md:block", className)}>
-            <div className="space-y-4 py-4">
+        <div className={cn(
+            "pb-12 h-screen border-r bg-background hidden md:block transition-all duration-300 ease-in-out relative flex flex-col",
+            isCollapsed ? "w-[60px]" : "w-64",
+            className
+        )}>
+            {/* Toggle Button */}
+            {toggleCollapse && (
+                <button
+                    onClick={toggleCollapse}
+                    className="absolute -right-3 top-6 z-40 h-6 w-6 rounded-full border bg-background shadow-md flex items-center justify-center hover:bg-muted"
+                >
+                    {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+                </button>
+            )}
+
+            <div className="space-y-4 py-4 flex-1 overflow-y-auto overflow-x-hidden">
                 <div className="px-3 py-2">
-                    <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-primary">
-                        Herrayma
-                    </h2>
+                    <div className={cn("mb-2 flex items-center h-8", isCollapsed ? "justify-center px-0" : "px-4")}>
+                        {isCollapsed ? (
+                            <Store className="h-6 w-6 text-primary" />
+                        ) : (
+                            <h2 className="text-lg font-semibold tracking-tight text-primary whitespace-nowrap">
+                                Herrayma
+                            </h2>
+                        )}
+                    </div>
+
                     <div className="space-y-1">
                         {navItems.map((item) => (
                             item.external ? (
@@ -96,26 +125,30 @@ export function Sidebar({ className }: { className?: string }) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={cn(
-                                        "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
-                                        "text-muted-foreground"
+                                        "flex items-center rounded-lg py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted group relative",
+                                        "text-muted-foreground",
+                                        isCollapsed ? "justify-center px-2" : "px-3"
                                     )}
+                                    title={isCollapsed ? item.title : undefined}
                                 >
-                                    <item.icon className="mr-2 h-4 w-4" />
-                                    {item.title}
+                                    <item.icon className={cn("h-4 w-4 shrink-0", !isCollapsed && "mr-2")} />
+                                    {!isCollapsed && <span>{item.title}</span>}
                                 </a>
                             ) : (
                                 <Link
                                     key={item.href}
                                     to={item.href}
                                     className={cn(
-                                        "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted",
+                                        "flex items-center rounded-lg py-2 text-sm font-medium transition-all hover:text-primary hover:bg-muted group relative",
                                         location.pathname === item.href || location.pathname.startsWith(item.href + "/")
                                             ? "bg-secondary text-primary"
-                                            : "text-muted-foreground"
+                                            : "text-muted-foreground",
+                                        isCollapsed ? "justify-center px-2" : "px-3"
                                     )}
+                                    title={isCollapsed ? item.title : undefined}
                                 >
-                                    <item.icon className="mr-2 h-4 w-4" />
-                                    {item.title}
+                                    <item.icon className={cn("h-4 w-4 shrink-0", !isCollapsed && "mr-2")} />
+                                    {!isCollapsed && <span>{item.title}</span>}
                                 </Link>
                             )
                         ))}

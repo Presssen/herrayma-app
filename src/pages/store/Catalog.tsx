@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Filter, Search, ArrowUpDown } from "lucide-react"
-import { inventoryItems } from "../../data/mockData"
+import { useStoreProducts } from "@/hooks/useStoreProducts"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 
 export default function Catalog() {
+    const { products } = useStoreProducts()
+
     return (
         <div className="container mx-auto py-12 px-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
@@ -66,7 +68,7 @@ export default function Catalog() {
                 {/* Product Grid */}
                 <div className="flex-1">
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {inventoryItems.map((item) => {
+                        {products.map((item) => {
                             const isLowStock = item.stock > 0 && item.stock < 10;
                             const isOutOfStock = item.stock === 0;
 
@@ -103,7 +105,12 @@ export default function Catalog() {
                                         </div>
                                         <h3 className="font-bold text-lg mb-2 leading-tight group-hover:text-primary transition-colors">{item.name}</h3>
                                         <div className="flex justify-between items-baseline mt-4">
-                                            <span className="text-2xl font-bold tracking-tight">${item.price.toFixed(2)}</span>
+                                            <div className="flex flex-col">
+                                                <span className="text-2xl font-bold tracking-tight text-primary">${item.price.toFixed(2)}</span>
+                                                {item.originalPrice && (
+                                                    <span className="text-sm text-muted-foreground line-through decoration-red-500/50">${item.originalPrice.toFixed(2)}</span>
+                                                )}
+                                            </div>
                                             <span className="text-xs text-muted-foreground">Location: {item.location}</span>
                                         </div>
                                     </CardContent>
